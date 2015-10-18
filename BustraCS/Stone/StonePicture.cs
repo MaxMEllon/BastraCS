@@ -14,22 +14,29 @@ namespace BustraCS.Stone
         private int y;
         private Size size;
 
-        private event MouseEventHandler _OnMouseClick;
-        public event MouseEventHandler OnMouseClick
-        {
-            add { _OnMouseClick += value; }
-            remove { _OnMouseClick -= value; }
-        }
-
-
         private void MouseEntered(object sender, MouseEventArgs e)
         {
-            Console.WriteLine(e.Clicks);
+            if (e.Button == MouseButtons.Left)
+            {
+                DoDragDrop(this, DragDropEffects.Move);
+            }
+        }
+
+        private void DragEntered(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void DragLeaved(object sender, EventArgs e)
+        {
         }
 
         public StonePicture(Stone stone)
         {
-            this.OnMouseClick += new MouseEventHandler(this.MouseEntered);
+            AllowDrop = true;
+            MouseDown += new MouseEventHandler(this.MouseEntered);
+            DragEnter += new DragEventHandler(this.DragEntered);
+            DragLeave += new EventHandler(this.DragLeaved);
             this.x = stone.X;
             this.y = stone.Y;
             this.Size = new Size(stone.Size, stone.Size);
