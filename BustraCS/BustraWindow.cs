@@ -20,7 +20,6 @@ namespace BustraCS
         public BustraWindow()
         {
             board = new Board(this);
-            board.Draw();
             InitializeComponent();
         }
     }

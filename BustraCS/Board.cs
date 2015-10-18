@@ -50,16 +50,7 @@ namespace BustraCS
             }
             pictureBox = createPictureBoxes(form);
         }
-        public void Draw()
-        {
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    pictureBox[i][j].Image = _stones[i][j].Image();
-                }
-            }
-        }
+
         private Collection<StonePictureList> createPictureBoxes(BustraWindow form)
         {
             Collection<StonePictureList> boxes = new Collection<StonePictureList>();

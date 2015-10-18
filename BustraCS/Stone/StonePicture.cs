@@ -42,6 +42,16 @@ namespace BustraCS.Stone
             this.Size = new Size(stone.Size, stone.Size);
             this.Top  = x * stone.Size;
             this.Left = y * stone.Size;
+            this.Image = Picture(stone.Color);
+        }
+
+        public Bitmap Picture(Brush color)
+        {
+            Bitmap canvas = new Bitmap(Size.Width, Size.Height);
+            Graphics g = Graphics.FromImage(canvas);
+            g.FillRectangle(color, 0, 0, Size.Width, Size.Height);
+            g.Dispose();
+            return canvas;
         }
     }
 }

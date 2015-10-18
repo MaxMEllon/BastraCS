@@ -9,7 +9,11 @@ namespace BustraCS.Stone
 {
     public class Stone
     {
-        private Brush color;
+        private Brush _color;
+        public Brush Color
+        {
+            get { return _color; }
+        }
         private int _x;
         public int X
         {
@@ -29,18 +33,10 @@ namespace BustraCS.Stone
 
         public Stone(int x, int y)
         {
-            color = StoneColor.random();
+            _color = StoneColor.random();
             _x = x;
             _y = y;
         }
 
-        public Bitmap Image()
-        {
-            Bitmap canvas = new Bitmap(_size, _size);
-            Graphics g = Graphics.FromImage(canvas);
-            g.FillRectangle(color, 0, 0, _size, _size);
-            g.Dispose();
-            return canvas;
-        }
     }
 }
