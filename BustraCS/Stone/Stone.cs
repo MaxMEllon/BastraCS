@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BustraCS.Stone
 {
+    /// <summary>
+    /// 石のmodel
+    /// </summary>
     public class Stone
     {
         private Brush _color;
