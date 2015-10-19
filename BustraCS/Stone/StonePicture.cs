@@ -25,8 +25,6 @@ namespace BustraCS.Stone
             AllowDrop = true;
             MouseDown += new MouseEventHandler(MouseDowned);
             MouseUp += new MouseEventHandler(MouseUped);
-            MouseHover += new EventHandler(MouseHovered);
-            MouseLeave += new EventHandler(MouseLeaved);
             Size = new Size(stone.Size, stone.Size);
             Location = new Point(y * stone.Size, x * stone.Size);
             Image = Picture(stone.Color);
@@ -42,6 +40,21 @@ namespace BustraCS.Stone
             Bitmap canvas = new Bitmap(Size.Width, Size.Height);
             Graphics g = Graphics.FromImage(canvas);
             g.FillRectangle(color, 0, 0, Size.Width, Size.Height);
+            g.Dispose();
+            return canvas;
+        }
+
+        /// <summary>
+        /// 仮のborder
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public Bitmap Border(Brush color)
+        {
+            Bitmap canvas = new Bitmap(Size.Width, Size.Height);
+            Graphics g = Graphics.FromImage(canvas);
+            g.FillRectangle(Brushes.Aqua, 0, 0, Size.Width, Size.Height);
+            g.FillRectangle(color, 2, 2, Size.Width-4, Size.Height-4);
             g.Dispose();
             return canvas;
         }

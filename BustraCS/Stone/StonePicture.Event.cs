@@ -23,6 +23,7 @@ namespace BustraCS.Stone
         {
             MouseMove += new MouseEventHandler(StoneMoved);
             MovingStonePicture = this;
+            this.Image = Border(stone.Color);
             BringToFront();
         }
 
@@ -36,26 +37,10 @@ namespace BustraCS.Stone
             MouseMove -= new MouseEventHandler(StoneMoved);
             MovingStonePicture = null;
             this.CorrectStoneLocation();
+            this.Image = Picture(stone.Color);
             SendToBack();
         }
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MouseHovered(object sender, EventArgs e)
-        {
-            if (MovingStonePicture != null)
-            {
-                Console.WriteLine(MovingStonePicture.Name);
-            }
-        }
-
-        private void MouseLeaved(object sender, EventArgs e)
-        {
-        }
-
         /// <summary>
         /// 石を動かすイベント
         /// </summary>
