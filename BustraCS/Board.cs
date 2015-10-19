@@ -36,6 +36,14 @@ namespace BustraCS
             get { return _stones; }
         }
         #endregion
+        #region isMoveing
+        private bool _isMoveing = false;
+        public bool IsMooving
+        {
+            get { return _isMoveing; }
+            set { _isMoveing = value; }
+        }
+        #endregion
 
         public Board(BustraWindow form)
         {

@@ -12,37 +12,17 @@ namespace BustraCS.Stone
     {
         private int x;
         private int y;
-        private Size size;
-
-        private void MouseEntered(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                DoDragDrop(this, DragDropEffects.Move);
-            }
-        }
-
-        private void DragEntered(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-        }
-
-        private void DragLeaved(object sender, EventArgs e)
-        {
-        }
 
         public StonePicture(Stone stone)
         {
             AllowDrop = true;
-            MouseDown += new MouseEventHandler(this.MouseEntered);
-            DragEnter += new DragEventHandler(this.DragEntered);
-            DragLeave += new EventHandler(this.DragLeaved);
-            this.x = stone.X;
-            this.y = stone.Y;
-            this.Size = new Size(stone.Size, stone.Size);
-            this.Top  = x * stone.Size;
-            this.Left = y * stone.Size;
-            this.Image = Picture(stone.Color);
+            MouseDown += new MouseEventHandler(MouseDowned);
+            MouseUp += new MouseEventHandler(MouseUped);
+            x = stone.X;
+            y = stone.Y;
+            Size = new Size(stone.Size, stone.Size);
+            Location = new Point(y * stone.Size, x * stone.Size);
+            Image = Picture(stone.Color);
         }
 
         public Bitmap Picture(Brush color)
@@ -52,6 +32,28 @@ namespace BustraCS.Stone
             g.FillRectangle(color, 0, 0, Size.Width, Size.Height);
             g.Dispose();
             return canvas;
+        }
+
+        private void MouseDowned(object sender, MouseEventArgs e)
+        {
+            MouseMove += new MouseEventHandler(StoneMove);
+        }
+
+        private void MouseUped(object sender, MouseEventArgs e)
+        { 
+            MouseMove -= new MouseEventHandler(StoneMove);
+            x = Top / Size.Height;
+            y = Left / Size.Width;
+            x = (Top >= x * Size.Height + Size.Height / 2) ? x + 1 : x;
+            y = (Left >= y * Size.Width + Size.Width / 2) ? y + 1 : y;
+            Top = x * Size.Height;
+            Left = y * Size.Width;
+        }
+
+        private void StoneMove(object sender, MouseEventArgs e)
+        {
+            Left = Cursor.Position.X - Size.Width / 2;
+            Top = Cursor.Position.Y - Size.Height;
         }
     }
 }
