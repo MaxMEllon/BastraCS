@@ -36,7 +36,7 @@ namespace BustraCS.Stone
 
         public Stone(int x, int y)
         {
-            _color = StoneColor.random();
+            _color = StoneColor.Random();
             _x = x;
             _y = y;
         }

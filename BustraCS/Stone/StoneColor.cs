@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
@@ -20,25 +21,17 @@ namespace BustraCS.Stone
         public static readonly Brush LIGHT = Brushes.LightYellow;
         public static readonly Brush HEAL  = Brushes.LightPink;
 
-        public static Brush random()
+        public static readonly Collection<Brush> COLORS
+            = new Collection<Brush> {RED, BLUE, GREEN, DARK, LIGHT, HEAL};
+
+        public static Brush Random()
         {
             using (var rng = new RNGCryptoServiceProvider())
             {
                 var buffer = new byte[sizeof(int)];
                 rng.GetBytes(buffer);
                 var seed = BitConverter.ToInt32(buffer, 0);
-                var random = new Random(seed);
-                int number = random.Next(6);
-                switch (number)
-                {
-                    case 0: return RED;
-                    case 1: return BLUE;
-                    case 2: return GREEN;
-                    case 3: return DARK;
-                    case 4: return LIGHT;
-                    case 5: return HEAL;
-                    default: return HEAL;
-                }
+                return COLORS[new Random(seed).Next(6)];
             }
         }
     }
