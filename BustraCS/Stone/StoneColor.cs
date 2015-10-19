@@ -20,9 +20,10 @@ namespace BustraCS.Stone
         public static readonly Brush DARK  = Brushes.DarkMagenta;
         public static readonly Brush LIGHT = Brushes.LightYellow;
         public static readonly Brush HEAL  = Brushes.LightPink;
-
-        public static readonly Collection<Brush> COLORS
-            = new Collection<Brush> {RED, BLUE, GREEN, DARK, LIGHT, HEAL};
+        #region public static Collection<Brush> COLORS { get; }
+        private static readonly Brush[] COLORS
+            = new Brush[] {RED, BLUE, GREEN, DARK, LIGHT, HEAL};
+        #endregion
 
         public static Brush Random()
         {
@@ -31,7 +32,7 @@ namespace BustraCS.Stone
                 var buffer = new byte[sizeof(int)];
                 rng.GetBytes(buffer);
                 var seed = BitConverter.ToInt32(buffer, 0);
-                return COLORS[new Random(seed).Next(6)];
+                return COLORS[new Random(seed).Next(COLORS.Length)];
             }
         }
     }

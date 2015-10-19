@@ -12,21 +12,21 @@ namespace BustraCS
     public class Board
     {
         private Collection<StonePictureList> pictureBoxes;
-        #region height
+        #region public int Height { get; }
         private readonly int _height = 5;
         public int Height
         {
             get { return _height; }
         }
         #endregion
-        #region width
-        private int _width = 6;
+        #region public int Width { get; }
+        private readonly int _width = 6;
         public int Width
         {
             get { return _width; }
         }
         #endregion
-        #region isMoveing
+        #region public bool isMoveing { set; get; }
         private bool _isMoveing = false;
         public bool IsMooving
         {
