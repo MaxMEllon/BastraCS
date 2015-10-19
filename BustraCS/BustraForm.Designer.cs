@@ -1,6 +1,6 @@
 ﻿namespace BustraCS
 {
-    partial class BustraWindow
+    partial class BustraForm
     {
         /// <summary>
         /// Required designer variable.

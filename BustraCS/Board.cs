@@ -26,16 +26,8 @@ namespace BustraCS
             get { return _width; }
         }
         #endregion
-        #region public bool isMoveing { set; get; }
-        private bool _isMoveing = false;
-        public bool IsMooving
-        {
-            get { return _isMoveing; }
-            set { _isMoveing = value; }
-        }
-        #endregion
 
-        public Board(BustraWindow form)
+        public Board(BustraForm form)
         {
             pictureBoxes = new Collection<StonePictureList>();
             for (int i = 0; i < Height; i++)

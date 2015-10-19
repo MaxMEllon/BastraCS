@@ -12,6 +12,8 @@ namespace BustraCS.Stone
     /// </summary>
     public partial class StonePicture : PictureBox
     {
+        private static StonePicture MovingStonePicture;
+
         /// <summary>
         /// 石を落とすイベント
         /// </summary>
@@ -19,7 +21,9 @@ namespace BustraCS.Stone
         /// <param name="e"></param>
         private void MouseDowned(object sender, MouseEventArgs e)
         {
-            MouseMove += new MouseEventHandler(StoneMove);
+            MouseMove += new MouseEventHandler(StoneMoved);
+            MovingStonePicture = this;
+            BringToFront();
         }
 
         /// <summary>
@@ -29,8 +33,27 @@ namespace BustraCS.Stone
         /// <param name="e"></param>
         private void MouseUped(object sender, MouseEventArgs e)
         { 
-            MouseMove -= new MouseEventHandler(StoneMove);
-            this.Move();
+            MouseMove -= new MouseEventHandler(StoneMoved);
+            MovingStonePicture = null;
+            this.CorrectStoneLocation();
+            SendToBack();
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MouseHovered(object sender, EventArgs e)
+        {
+            if (MovingStonePicture != null)
+            {
+                Console.WriteLine(MovingStonePicture.Name);
+            }
+        }
+
+        private void MouseLeaved(object sender, EventArgs e)
+        {
         }
 
         /// <summary>
@@ -38,16 +61,16 @@ namespace BustraCS.Stone
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StoneMove(object sender, MouseEventArgs e)
+        private void StoneMoved(object sender, MouseEventArgs e)
         {
             Left = Cursor.Position.X - Size.Width / 2;
             Top = Cursor.Position.Y - Size.Height;
         }
 
         /// <summary>
-        /// StonePictureを動かす
+        /// 石の場所を補正する
         /// </summary>
-        private void Move()
+        private void CorrectStoneLocation()
         {
             int _x = Top / Size.Height;
             int _y = Left / Size.Width;

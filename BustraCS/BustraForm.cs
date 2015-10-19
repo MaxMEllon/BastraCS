@@ -13,11 +13,11 @@ using System.Windows.Forms;
 
 namespace BustraCS
 {
-    public partial class BustraWindow : Form
+    public partial class BustraForm : Form
     {
         private Board board;
 
-        public BustraWindow()
+        public BustraForm()
         {
             board = new Board(this);
             StartPosition = FormStartPosition.Manual;

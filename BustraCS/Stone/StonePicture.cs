@@ -25,6 +25,8 @@ namespace BustraCS.Stone
             AllowDrop = true;
             MouseDown += new MouseEventHandler(MouseDowned);
             MouseUp += new MouseEventHandler(MouseUped);
+            MouseHover += new EventHandler(MouseHovered);
+            MouseLeave += new EventHandler(MouseLeaved);
             Size = new Size(stone.Size, stone.Size);
             Location = new Point(y * stone.Size, x * stone.Size);
             Image = Picture(stone.Color);
@@ -43,6 +45,5 @@ namespace BustraCS.Stone
             g.Dispose();
             return canvas;
         }
-
     }
 }

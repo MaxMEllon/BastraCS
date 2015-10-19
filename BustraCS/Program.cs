@@ -13,7 +13,7 @@ namespace BustraCS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BustraWindow());
+            Application.Run(new BustraForm());
         }
     }
 }
