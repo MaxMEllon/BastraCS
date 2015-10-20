@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -41,6 +43,43 @@ namespace BustraCS
                 }
                 pictureBoxes.Add(line);
             }
+            SetStonePictureOverlayEvent();
+        }
+
+        /// <summary>
+        /// 現在石が動いているかどうかを調べる
+        /// </summary>
+        /// <returns>今石が動いてるかどうか</returns>
+        private bool nowMovingStone()
+        {
+            bool flag = false;
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    flag = pictureBoxes[i][j].IsMoving;
+                }
+            }
+            return flag;
+        }
+
+        /// <summary>
+        /// StonePictureが重なった時のイベントを登録
+        /// </summary>
+        private void SetStonePictureOverlayEvent()
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    pictureBoxes[i][j].AsyncOverlayStone += new EventHandler(SwapStone);
+                }
+            }
+        }
+
+        private void SwapStone(object sender, EventArgs e)
+        {
+            Console.WriteLine("swap!");
         }
     }
 }

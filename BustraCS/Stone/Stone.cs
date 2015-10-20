@@ -30,7 +30,7 @@ namespace BustraCS.Stone
             set { _y = value; }
         }
 
-        private int _size = 48;
+        private int _size = 50;
         public int Size
         {
             get { return _size; }

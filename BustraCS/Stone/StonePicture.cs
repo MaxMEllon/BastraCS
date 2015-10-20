@@ -16,6 +16,21 @@ namespace BustraCS.Stone
         private int x;
         private int y;
         private Stone stone;
+        private static readonly int defaultSize = 50;
+
+        public StonePicture(StonePicture sp)
+        {
+            stone = sp.stone;
+            x = sp.stone.X;
+            y = sp.stone.Y;
+            AllowDrop = true;
+            MouseDown += new MouseEventHandler(MouseDowned);
+            MouseUp += new MouseEventHandler(MouseUped);
+            Size = new Size(stone.Size, stone.Size);
+            Location = new Point(y * stone.Size, x * stone.Size);
+            OnAsyncOverlayStone(EventArgs.Empty);
+            Image = Picture(sp.stone.Color);
+        }
 
         public StonePicture(int x, int y)
         {
@@ -27,6 +42,7 @@ namespace BustraCS.Stone
             MouseUp += new MouseEventHandler(MouseUped);
             Size = new Size(stone.Size, stone.Size);
             Location = new Point(y * stone.Size, x * stone.Size);
+            OnAsyncOverlayStone(EventArgs.Empty);
             Image = Picture(stone.Color);
         }
 
@@ -35,11 +51,11 @@ namespace BustraCS.Stone
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public Bitmap Picture(Brush color)
+        private Bitmap Picture(Brush color)
         {
-            Bitmap canvas = new Bitmap(Size.Width, Size.Height);
+            Bitmap canvas = new Bitmap(defaultSize, defaultSize);
             Graphics g = Graphics.FromImage(canvas);
-            g.FillRectangle(color, 0, 0, Size.Width, Size.Height);
+            g.FillRectangle(color, 0, 0, defaultSize, defaultSize);
             g.Dispose();
             return canvas;
         }
@@ -49,14 +65,21 @@ namespace BustraCS.Stone
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public Bitmap Border(Brush color)
+        private Bitmap Border(Brush color)
         {
-            Bitmap canvas = new Bitmap(Size.Width, Size.Height);
+            Bitmap canvas = new Bitmap(defaultSize, defaultSize);
             Graphics g = Graphics.FromImage(canvas);
             g.FillRectangle(Brushes.Aqua, 0, 0, Size.Width, Size.Height);
             g.FillRectangle(color, 2, 2, Size.Width-4, Size.Height-4);
             g.Dispose();
+            this.Size = new Size(defaultSize, defaultSize);
             return canvas;
+        }
+
+        public static StonePicture Clone(StonePicture stone)
+        {
+            StonePicture clone = new StonePicture(stone);
+            return clone;
         }
     }
 }
