@@ -126,14 +126,9 @@ namespace BustraCS.Stone
             Invoke(new SetFocusDelegate(
                 () =>
                 {
-                    SetFocus();
+                    this.Focus();
                     callBack();
                 }));
-        }
-
-        public void SetFocus()
-        {
-            this.Focus();
         }
 
         public delegate void SetFocusDelegate();

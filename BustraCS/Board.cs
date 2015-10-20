@@ -73,7 +73,7 @@ namespace BustraCS
                             if (pictureBoxes[i][j].IsEmpty)
                             {
                                 StonePicture temp = ((StonePicture)sender);
-                                Thread t = new Thread(new ThreadStart(
+                                Task task = new Task(
                                     ()=> {
                                         temp.worker(
                                             () => {
@@ -83,8 +83,8 @@ namespace BustraCS
                                                 temp.Left = y * 50;
                                                 temp.IsEmpty = true;
                                             });
-                                    }));
-                                t.Start();
+                                    });
+                                task.Start();
                                 pictureBoxes[i][j].IsEmpty = false;
                             }
                         }
