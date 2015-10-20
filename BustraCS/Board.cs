@@ -47,23 +47,6 @@ namespace BustraCS
         }
 
         /// <summary>
-        /// 現在石が動いているかどうかを調べる
-        /// </summary>
-        /// <returns>今石が動いてるかどうか</returns>
-        private bool nowMovingStone()
-        {
-            bool flag = false;
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    flag = pictureBoxes[i][j].IsMoving;
-                }
-            }
-            return flag;
-        }
-
-        /// <summary>
         /// StonePictureが重なった時のイベントを登録
         /// </summary>
         private void SetStonePictureOverlayEvent()
@@ -77,9 +60,37 @@ namespace BustraCS
             }
         }
 
-        private void SwapStone(object sender, EventArgs e)
+        private async void SwapStone(object sender, EventArgs e)
         {
-            Console.WriteLine("swap!");
+            await Task.Run(
+                () => {
+                    for (int i = 0; i < Height; i++)
+                    {
+                        for (int j = 0; j < Width; j++)
+                        {
+                            int x = i;
+                            int y = j;
+                            if (pictureBoxes[i][j].IsEmpty)
+                            {
+                                StonePicture temp = ((StonePicture)sender);
+                                Thread t = new Thread(new ThreadStart(
+                                    ()=> {
+                                        temp.worker(
+                                            () => {
+                                                temp._x = x;
+                                                temp._y = y;
+                                                temp.Top = x * 50;
+                                                temp.Left = y * 50;
+                                                temp.IsEmpty = true;
+                                            });
+                                    }));
+                                t.Start();
+                                pictureBoxes[i][j].IsEmpty = false;
+                            }
+                        }
+                    }
+                });
         }
     }
+
 }

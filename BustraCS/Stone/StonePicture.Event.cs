@@ -18,23 +18,21 @@ namespace BustraCS.Stone
         private bool judgeOverlay()
         {
             if (MovingStonePicture == null) { return false; }
-            return this.Left - 10 < MovingStonePicture.Left && MovingStonePicture.Left < this.Left + 10
-                    && this.Top - 10 < MovingStonePicture.Top && MovingStonePicture.Top < this.Top + 10;
+            return this.Left - 20 < MovingStonePicture.Left && MovingStonePicture.Left < this.Left + 20
+                 && this.Top - 20 < MovingStonePicture.Top && MovingStonePicture.Top < this.Top + 20;
         }
         private bool isOverlay
         {
             get { return judgeOverlay(); }
         }
         #endregion
-        #region public bool IsMoving { get; }
-        private bool _isMoving = false;
-        public bool IsMoving
+        private bool _isEnpty = false;
+        public bool IsEmpty
         {
-            get { return _isMoving; }
+            get { return _isEnpty; }
+            set { _isEnpty = value; }
         }
-        #endregion
         public static StonePicture MovingStonePicture;
-        public static StonePicture EmptyStonePicture;
 
         /// <summary>
         /// 石を落とすイベント
@@ -46,8 +44,7 @@ namespace BustraCS.Stone
             MouseMove += new MouseEventHandler(StoneMoved);
             this.Image = Border(stone.Color);
             StonePicture.MovingStonePicture = this;
-            StonePicture.EmptyStonePicture = StonePicture.Clone(this);
-            this._isMoving = true;
+            this._isEnpty = true;
             BringToFront();
         }
 
@@ -62,8 +59,7 @@ namespace BustraCS.Stone
             this.CorrectStoneLocation();
             this.Image = Picture(stone.Color);
             StonePicture.MovingStonePicture = null;
-            StonePicture.EmptyStonePicture = null;
-            this._isMoving = false;
+            this._isEnpty = false;
             SendToBack();
         }
         
@@ -92,11 +88,11 @@ namespace BustraCS.Stone
 
         private void MoveTo(int _x, int _y)
         {
-            this.x = _x;
-            this.y = _y;
+            this._x = _x;
+            this._y = _y;
             stone.X = _x;
             stone.Y = _y;
-            this.Location = new Point(y * defaultSize, x * defaultSize);
+            this.Location = new Point(_y * defaultSize, _x * defaultSize);
         }
 
         /// <summary>
@@ -114,22 +110,9 @@ namespace BustraCS.Stone
                             if (handler != null && this.isOverlay)
                             {
                                 handler(this, e);
-                                StonePicture temp = StonePicture.Clone(this);
-                                this.x = EmptyStonePicture.x;
-                                this.y = EmptyStonePicture.y;
-                                // TODO: bugってる
-                                try
-                                {
-                                    this.Location =  new Point(y * defaultSize, x * defaultSize);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.ToString());
-                                }
-                                EmptyStonePicture = temp;
                             }
                         });
-                    System.Threading.Timer timer = new System.Threading.Timer(timerDelegate, null, 0, 1000);
+                    System.Threading.Timer timer = new System.Threading.Timer(timerDelegate, null, 0, 100);
                 });
         }
 
@@ -137,5 +120,22 @@ namespace BustraCS.Stone
         /// 
         /// </summary>
         public event EventHandler AsyncOverlayStone;
+
+        public void worker(Action callBack)
+        {
+            Invoke(new SetFocusDelegate(
+                () =>
+                {
+                    SetFocus();
+                    callBack();
+                }));
+        }
+
+        public void SetFocus()
+        {
+            this.Focus();
+        }
+
+        public delegate void SetFocusDelegate();
     }
 }

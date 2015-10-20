@@ -13,24 +13,10 @@ namespace BustraCS.Stone
     /// </summary>
     public partial class StonePicture : PictureBox
     {
-        private int x;
-        private int y;
+        public int _x;
+        public int _y;
         private Stone stone;
         private static readonly int defaultSize = 50;
-
-        public StonePicture(StonePicture sp)
-        {
-            stone = sp.stone;
-            x = sp.stone.X;
-            y = sp.stone.Y;
-            AllowDrop = true;
-            MouseDown += new MouseEventHandler(MouseDowned);
-            MouseUp += new MouseEventHandler(MouseUped);
-            Size = new Size(stone.Size, stone.Size);
-            Location = new Point(y * stone.Size, x * stone.Size);
-            OnAsyncOverlayStone(EventArgs.Empty);
-            Image = Picture(sp.stone.Color);
-        }
 
         public StonePicture(int x, int y)
         {
@@ -74,12 +60,6 @@ namespace BustraCS.Stone
             g.Dispose();
             this.Size = new Size(defaultSize, defaultSize);
             return canvas;
-        }
-
-        public static StonePicture Clone(StonePicture stone)
-        {
-            StonePicture clone = new StonePicture(stone);
-            return clone;
         }
     }
 }
