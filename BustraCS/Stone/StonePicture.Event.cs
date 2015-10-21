@@ -18,8 +18,8 @@ namespace BustraCS.Stone
         private bool judgeOverlay()
         {
             if (MovingStonePicture == null) { return false; }
-            return this.Left - 20 < MovingStonePicture.Left && MovingStonePicture.Left < this.Left + 20
-                 && this.Top - 20 < MovingStonePicture.Top && MovingStonePicture.Top < this.Top + 20;
+            return this.Left - 15 < MovingStonePicture.Left && MovingStonePicture.Left < this.Left + 15 
+                 && this.Top - 15 < MovingStonePicture.Top && MovingStonePicture.Top < this.Top + 15;
         }
         private bool isOverlay
         {
@@ -42,7 +42,7 @@ namespace BustraCS.Stone
         private void MouseDowned(object sender, MouseEventArgs e)
         {
             MouseMove += new MouseEventHandler(StoneMoved);
-            this.Image = Border(stone.Color);
+            //this.Image = Border(stone.Color);
             StonePicture.MovingStonePicture = this;
             this._isEnpty = true;
             BringToFront();
@@ -57,7 +57,7 @@ namespace BustraCS.Stone
         { 
             MouseMove -= new MouseEventHandler(StoneMoved);
             this.CorrectStoneLocation();
-            this.Image = Picture(stone.Color);
+            //this.Image = Picture(stone.Color);
             StonePicture.MovingStonePicture = null;
             this._isEnpty = false;
             SendToBack();
@@ -86,6 +86,11 @@ namespace BustraCS.Stone
             this.MoveTo(_x, _y);
         }
 
+        /// <summary>
+        /// 指定の場所に移動
+        /// </summary>
+        /// <param name="_x"></param>
+        /// <param name="_y"></param>
         private void MoveTo(int _x, int _y)
         {
             this._x = _x;
@@ -112,25 +117,20 @@ namespace BustraCS.Stone
                                 handler(this, e);
                             }
                         });
-                    System.Threading.Timer timer = new System.Threading.Timer(timerDelegate, null, 0, 100);
+                    System.Threading.Timer timer = new System.Threading.Timer(timerDelegate, null, 0, 600);
                 });
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public event EventHandler AsyncOverlayStone;
 
         public void worker(Action callBack)
         {
-            Invoke(new SetFocusDelegate(
-                () =>
-                {
-                    this.Focus();
-                    callBack();
-                }));
+            Invoke(new SetFocusDelegate( () => callBack() ));
         }
 
+        public event EventHandler AsyncOverlayStone;
         public delegate void SetFocusDelegate();
     }
 }

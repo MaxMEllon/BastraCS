@@ -60,37 +60,33 @@ namespace BustraCS
             }
         }
 
-        private async void SwapStone(object sender, EventArgs e)
+        private void SwapStone(object sender, EventArgs e)
         {
-            await Task.Run(
-                () => {
-                    for (int i = 0; i < Height; i++)
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (pictureBoxes[i][j].IsEmpty)
                     {
-                        for (int j = 0; j < Width; j++)
-                        {
-                            int x = i;
-                            int y = j;
-                            if (pictureBoxes[i][j].IsEmpty)
-                            {
-                                StonePicture temp = ((StonePicture)sender);
-                                Task task = new Task(
-                                    ()=> {
-                                        temp.worker(
-                                            () => {
-                                                temp._x = x;
-                                                temp._y = y;
-                                                temp.Top = x * 50;
-                                                temp.Left = y * 50;
-                                                temp.IsEmpty = true;
-                                            });
+                        int x = i;
+                        int y = j;
+                        StonePicture temp = ((StonePicture)sender);
+                        StonePicture empty = pictureBoxes[i][j];
+                        Task move = new Task(
+                            ()=> {
+                                temp.worker(
+                                    () => {
+                                        temp._x = x;
+                                        temp._y = y;
+                                        temp.Location = new Point(y * 50, x * 50);
+                                        temp.IsEmpty = true;
                                     });
-                                task.Start();
-                                pictureBoxes[i][j].IsEmpty = false;
-                            }
-                        }
+                                empty.worker(() => empty.IsEmpty = false);
+                            });
+                        move.Start();
                     }
-                });
+                }
+            }
         }
     }
-
 }

@@ -30,13 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // BustraWindow
+            // BustraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "BustraWindow";
+            this.ClientSize = new System.Drawing.Size(300, 248);
+            this.Name = "BustraForm";
             this.ResumeLayout(false);
+
         }
         #endregion
     }
